@@ -1,0 +1,140 @@
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f3f3f3;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Columns layout */
+#columns {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.column {
+  background: #f0f0f0;
+  flex: 1;
+  min-height: 300px;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background 0.2s, border 0.2s;
+}
+
+.column h2 {
+  text-align: center;
+  margin-top: 0;
+}
+
+/* Column drag-over highlight */
+.column.drag-over {
+  background-color: #e0f7ff;
+  border: 2px dashed #00aaff;
+}
+
+/* Task input */
+#task-input {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#task-input input {
+  padding: 8px;
+  flex: 1;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+#task-input button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+#task-input button:hover {
+  background-color: #0056b3;
+}
+
+/* Task cards */
+.task {
+  background: white;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: grab;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+}
+
+/* Dragging effect */
+.task.dragging {
+  opacity: 0.6;
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* Responsive: wrap columns on smaller screens */
+@media (max-width: 800px) {
+  #columns {
+    flex-direction: column;
+  }
+}
+
+.task-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.task-labels {
+  margin-bottom: 5px;
+}
+
+.task-label {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+.task-due {
+  font-size: 12px;
+  color: #333;
+}
+
+.task-due.overdue {
+  color: red;
+  font-weight: bold;
+}
+
+.task {
+  background: white;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: grab;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, opacity 0.2s;
+}
+
+/* Hover effect: grey highlight + slight scale + lift */
+.task:hover {
+  background-color: #e0e0e0;  /* light grey */
+  transform: scale(1.03);      /* slightly bigger */
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2); /* lifted shadow */
+}
+
