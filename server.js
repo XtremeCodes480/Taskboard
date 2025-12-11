@@ -1,10 +1,17 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve frontend files from current directory
+app.use(express.static(path.join(__dirname)));
+
+// ------------------
+// Task API
+// ------------------
 let tasks = [];
 
 function getMaxOrder(column) {
@@ -13,7 +20,6 @@ function getMaxOrder(column) {
   return Math.max(...colTasks.map(t => t.order));
 }
 
-// Get all tasks
 app.get("/tasks", (req, res) => {
   const sortedTasks = [...tasks].sort((a, b) => {
     if (a.column === b.column) return a.order - b.order;
@@ -22,7 +28,6 @@ app.get("/tasks", (req, res) => {
   res.json(sortedTasks);
 });
 
-// Add a task
 app.post("/tasks", (req, res) => {
   const { text } = req.body;
   if (!text) return res.status(400).json({ error: "No text provided" });
@@ -41,14 +46,12 @@ app.post("/tasks", (req, res) => {
   res.json(task);
 });
 
-// Delete task
 app.delete("/tasks/:id", (req, res) => {
   const id = Number(req.params.id);
   tasks = tasks.filter(t => t.id !== id);
   res.json({ success: true });
 });
 
-// Update task (column, order, or details)
 app.put("/tasks/:id", (req, res) => {
   const id = Number(req.params.id);
   const { column, order, description, labels, dueDate, text } = req.body;
@@ -56,14 +59,12 @@ app.put("/tasks/:id", (req, res) => {
   const task = tasks.find(t => t.id === id);
   if (!task) return res.status(404).json({ error: "Task not found" });
 
-  // Update column/order
   if (column && column !== task.column) {
     task.column = column;
     task.order = order || getMaxOrder(column) + 1;
   }
   if (order !== undefined) task.order = order;
 
-  // Update details
   if (text !== undefined) task.text = text;
   if (description !== undefined) task.description = description;
   if (labels !== undefined) task.labels = labels;
@@ -72,7 +73,10 @@ app.put("/tasks/:id", (req, res) => {
   res.json(task);
 });
 
-const PORT = process.env.PORT || 4000; // Render sets process.env.PORT
-app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
+// Serve index.html for all other routes (for SPA routing)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 
-
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`));
