@@ -1,52 +1,39 @@
-/* Base styles */
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background: #f3f3f3;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 /* Columns layout */
 #columns {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap; /* allows wrapping on small screens */
 }
 
+/* Individual column */
 .column {
   background: #f0f0f0;
-  flex: 1;
+  flex: 1 1 250px; /* allow shrinking, minimum width 250px */
   min-height: 300px;
   padding: 10px;
   border-radius: 6px;
   transition: background 0.2s, border 0.2s;
 }
 
+/* Column title */
 .column h2 {
   text-align: center;
   margin-top: 0;
 }
 
-/* Column drag-over highlight */
-.column.drag-over {
-  background-color: #e0f7ff;
-  border: 2px dashed #00aaff;
-}
-
-/* Task input */
+/* Inputs/buttons responsive */
 #task-input {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 #task-input input {
   padding: 8px;
-  flex: 1;
+  flex: 1 1 200px;
   border-radius: 4px;
   border: 1px solid #ccc;
   font-size: 14px;
@@ -75,23 +62,17 @@ h1 {
   margin-bottom: 10px;
   cursor: grab;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, opacity 0.2s;
 }
 
-/* Dragging effect */
-.task.dragging {
-  opacity: 0.6;
-  transform: scale(1.05);
+/* Hover effect for desktop (ignored on touch devices) */
+.task:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.03);
   box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
-/* Responsive: wrap columns on smaller screens */
-@media (max-width: 800px) {
-  #columns {
-    flex-direction: column;
-  }
-}
-
+/* Task inner styling */
 .task-title {
   font-weight: bold;
   margin-bottom: 5px;
@@ -121,20 +102,23 @@ h1 {
   font-weight: bold;
 }
 
-.task {
-  background: white;
-  padding: 10px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  cursor: grab;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, opacity 0.2s;
+/* Modal styling for mobile */
+#task-modal > div {
+  width: 90%;
+  max-width: 350px;
 }
 
-/* Hover effect: grey highlight + slight scale + lift */
-.task:hover {
-  background-color: #e0e0e0;  /* light grey */
-  transform: scale(1.03);      /* slightly bigger */
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2); /* lifted shadow */
+#task-modal input,
+#task-modal textarea {
+  font-size: 14px;
 }
 
+/* Responsive columns: stack vertically under 800px */
+@media (max-width: 800px) {
+  #columns {
+    flex-direction: column;
+  }
+  #task-input input {
+    flex: 1 1 100%;
+  }
+}

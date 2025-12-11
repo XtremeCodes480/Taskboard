@@ -72,6 +72,7 @@ app.put("/tasks/:id", (req, res) => {
   res.json(task);
 });
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000; // Render sets process.env.PORT
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
+
 
